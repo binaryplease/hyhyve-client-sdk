@@ -82,7 +82,7 @@ hyhyve.attach('#container', {
 });
 ```
 
-## Whitelabel Configuration
+## Whitelabel Configuration Examples
 
 The SDK includes several preset configurations for common use cases:
 
@@ -158,19 +158,6 @@ hyhyve.attach(element, options);
 hyhyve.attach(undefined, options);
 ```
 
-### updateOptions(options)
-
-Updates the component options after initialization.
-
-```typescript
-hyhyve.updateOptions({
-  spaceId: 'new-space-id',
-  whitelabelSettings: {
-    forceTheme: 'light'
-  }
-});
-```
-
 ### destroy()
 
 Destroys the component and cleans up resources.
@@ -178,44 +165,6 @@ Destroys the component and cleans up resources.
 ```typescript
 hyhyve.destroy();
 ```
-
-### Properties
-
-#### iframeElement
-
-Access the underlying iframe element:
-
-```typescript
-const iframe = hyhyve.iframeElement;
-if (iframe) {
-  console.log('Iframe src:', iframe.src);
-}
-```
-
-## Development
-
-### Building the SDK
-
-```bash
-npm install
-npm run build
-```
-
-### Running the Example
-
-```bash
-npm run example
-```
-
-Then open http://localhost:3001 to see the example.
-
-### Development Mode
-
-```bash
-npm run dev
-```
-
-This will build the SDK in watch mode for development.
 
 ## TypeScript Support
 
@@ -230,18 +179,7 @@ import type {
 } from '@hyhyve/client-sdk';
 ```
 
-## Browser Support
-
-- Modern browsers with ES2020 support
-- Web Components support (Custom Elements v1)
-- Shadow DOM support
-
-For older browsers, you may need to include polyfills for Web Components.
 
 ## License
 
 MIT
-
-## Support
-
-For support and questions, please visit [HyHyve Documentation](https://hyhyve.com/docs) or create an issue in the repository.
