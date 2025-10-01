@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width,height=device-height,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>HyHyve SDK Example</title>
+  <script type="module" src="./example.ts"></script>
+
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+
+      height: 100vh;
+      width: 100vw;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      font-size: 14px;
+
+      background-image: linear-gradient(135deg, #667eea, #764ba2);
+
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <div style="
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      box-sizing: border-box;
+      min-height: 0;
+      background-image: url('./noisy-texture-100x100-o4-d10-c-f34379-t1.png');
+      background-repeat: repeat;
+      background-size: 100px 100px;
+      background-blend-mode: multiply;
+">
+    <div style="padding: 8px; flex-shrink: 0;">
+      <h2>HyHyve</h2>
+      <h1>Web Component SDK</h1>
+      <p>This example demonstrates the HyHyve SDK integration.</p>
+
+      <div style="margin-top: 20px;">
+        <button id="updateBtn" style="
+          background: rgba(255,255,255,0.2);
+          border: 1px solid rgba(255,255,255,0.3);
+          color: white;
+          padding: 8px 16px;
+          border-radius: 4px;
+          cursor: pointer;
+          margin-right: 8px;
+        ">Update Options</button>
+
+        <button id="destroyBtn" style="
+          background: rgba(255,0,0,0.3);
+          border: 1px solid rgba(255,0,0,0.5);
+          color: white;
+          padding: 8px 16px;
+          border-radius: 4px;
+          cursor: pointer;
+        ">Destroy</button>
+      </div>
+    </div>
+
+    <div id="hyhyve"
+      style="flex: auto; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);"></div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+{
+  "name": "@hyhyve/client-sdk",
+  "version": "1.0.0",
+  "description": "HyHyve Web Component SDK for embedding HyHyve spaces in web applications",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "vite build && tsc --emitDeclarationOnly --outDir dist",
+    "dev": "vite build --watch",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "example": "vite serve example --port 3001"
+  },
+  "keywords": [
+    "hyhyve",
+    "web-component",
+    "sdk",
+    "iframe",
+    "embed",
+    "typescript"
+  ],
+  "author": "HyHyve Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^24.6.1",
+    "terser": "^5.44.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.7",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hyhyve/hyhyve.git",
+    "directory": "client-sdk"
+  },
+  "homepage": "https://hyhyve.com",
+  "bugs": {
+    "url": "https://github.com/hyhyve/hyhyve/issues"
+  }
+}
