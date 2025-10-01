@@ -1,6 +1,12 @@
 # Build the client SDK
 build:
-    npx vite build && tsc --emitDeclarationOnly --outDir dist
+    npx vite build && npx tsc --emitDeclarationOnly --outDir dist
+
+# Build the example and copy to client build directory
+build-example:
+    npx vite build --config vite.example.config.ts
+    mkdir -p ../client/build/sdk/example
+    cp -r example-dist/* ../client/build/sdk/example/
 
 # Development mode with watch
 dev:
