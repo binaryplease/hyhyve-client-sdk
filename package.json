@@ -35,11 +35,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/hyhyve/hyhyve.git",
-    "directory": "client-sdk"
+    "url": "https://github.com/binaryplease/hyhyve-client-sdk.git"
   },
   "homepage": "https://hyhyve.com",
   "bugs": {
-    "url": "https://github.com/hyhyve/hyhyve/issues"
+    "url": "https://github.com/binaryplease/hyhyve-client-sdk/issues"
   }
 }
