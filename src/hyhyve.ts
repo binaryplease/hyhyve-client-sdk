@@ -141,22 +141,6 @@ class HyHyveComponent extends HTMLElement {
   }
 
   /**
-   * Update the component options after initialization
-   * @param opts - New configuration options
-   */
-  updateOptions(opts: HyHyveOptions): void {
-    this.pendingOptions = { ...this.pendingOptions, ...opts };
-
-    // If iframe is ready, send updated options
-    if (this.iframe?.contentWindow) {
-      this.iframe.contentWindow.postMessage(
-        { tag: "sdk:init", opts: this.pendingOptions },
-        "*"
-      );
-    }
-  }
-
-  /**
    * Destroy the component and clean up resources
    */
   destroy(): void {
