@@ -2,11 +2,21 @@ import { HyHyveComponent, corporateConfig } from '../src/index';
 
 const hyhyve = new HyHyveComponent();
 
+// Determine base URL based on environment
+const getBaseUrl = () => {
+  // Check if we're running on localhost (development)
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    return 'http://localhost:1234';
+  }
+  // Use production URL when hosted
+  return window.location.origin;
+};
+
 const attach = () => {
   hyhyve.attach("#hyhyve", {
     spaceId: '0lU1wUuGT5e4aLdHee8De',
     embedded: true,
-    baseUrl: 'http://localhost:1234', // For development
+    baseUrl: getBaseUrl(),
     whitelabelSettings: corporateConfig,
     auth: {
       tag: "complete",
