@@ -24,6 +24,16 @@
 
       color: white;
     }
+
+    #spaceIdInput::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    #spaceIdInput:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.6);
+      background-color: rgba(255, 255, 255, 0.15);
+    }
   </style>
 </head>
 
@@ -46,7 +56,21 @@
       <h1>Web Component SDK</h1>
       <p>This example demonstrates the HyHyve SDK integration.</p>
 
-      <div style="margin-top: 20px; display: flex; gap: 12px;">
+      <div style="margin-top: 20px;">
+        <label for="spaceIdInput" style="display: block; margin-bottom: 8px; font-weight: 500;">Space ID:</label>
+        <input id="spaceIdInput" type="text" value="HyHyvePub" placeholder="Enter space ID" style="
+            width: 200px;
+            padding: 8px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 14px;
+            margin-bottom: 16px;
+          " />
+      </div>
+
+      <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
         <button id="attachBtn" style="
           display: inline-flex;
           align-items: center;
@@ -60,6 +84,20 @@
           font-weight: bold;
           cursor: pointer;
         ">Attach</button>
+
+        <button id="randomizeBtn" style="
+          display: inline-flex;
+          align-items: center;
+          padding: 10px 20px;
+          border: none;
+          font-size: 14px;
+          font-weight: 500;
+          border-radius: 8px;
+          background-color: #8b5cf6;
+          color: #FFF;
+          font-weight: bold;
+          cursor: pointer;
+        ">🎲 New Identity</button>
 
         <button id="destroyBtn" style="
           display: inline-flex;
