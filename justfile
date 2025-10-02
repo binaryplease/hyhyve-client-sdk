@@ -12,15 +12,6 @@ build-example:
 dev:
     bunx vite build --watch
 
-# Run development and example together
-dev-with-example:
-    concurrently \
-        --kill-others-on-fail \
-        --names "DEV,EXAMPLE" \
-        --prefix-colors "blue,green" \
-        "bunx vite build --watch" \
-        "bunx vite serve example --port 3001"
-
 # Preview the built SDK
 preview:
     bunx vite preview
@@ -31,4 +22,4 @@ typecheck:
 
 # Run the example application
 example:
-    bunx vite serve example --port 3001
+    bunx vite dev example --port 3001

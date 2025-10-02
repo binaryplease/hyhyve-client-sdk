@@ -60,11 +60,17 @@ export const basicConfig: WhitelabelSettings = {
     themes: {
       light: {
         primary: "#007bff",
-        shade1: "#f8f9fa"
+        shade1: "#f8fafc", // slate-50
+        shade2: "#f1f5f9", // slate-100
+        shade3: "#e2e8f0", // slate-200
+        shade4: "#475569"  // slate-600 (active state)
       },
       dark: {
         primary: "#0d6efd",
-        shade1: "#212529"
+        shade1: "#0f172a", // slate-900
+        shade2: "#1e293b", // slate-800
+        shade3: "#334155", // slate-700
+        shade4: "#cbd5e1"  // slate-300 (active state for dark)
       }
     }
   }
@@ -86,7 +92,11 @@ export const embeddedConfig: WhitelabelSettings = {
     brand: "Embedded Chat",
     themes: {
       light: {
-        primary: "#28a745"
+        primary: "#28a745",
+        shade1: "#f8fafc", // slate-50
+        shade2: "#f1f5f9", // slate-100
+        shade3: "#e2e8f0", // slate-200
+        shade4: "#475569"  // slate-600 (active state)
       }
     }
   }
@@ -115,7 +125,7 @@ export const corporateConfig: WhitelabelSettings = {
         shade1: "#f8fafc", // slate-50
         shade2: "#f1f5f9", // slate-100
         shade3: "#e2e8f0", // slate-200
-        shade4: "#475569", // slate-600 (significantly darker)
+        shade4: "#475569", // slate-600 (active state)
         green: "#22c55e", // green-500
         yellow: "#eab308", // yellow-500
         red: "#ef4444" // red-500
@@ -125,7 +135,7 @@ export const corporateConfig: WhitelabelSettings = {
         shade1: "#0f172a", // slate-900
         shade2: "#1e293b", // slate-800
         shade3: "#334155", // slate-700
-        shade4: "#cbd5e1", // slate-300 (darker contrast vs background)
+        shade4: "#cbd5e1", // slate-300 (active state)
         green: "#4ade80", // green-400
         yellow: "#facc15", // yellow-400
         red: "#f87171" // red-400
