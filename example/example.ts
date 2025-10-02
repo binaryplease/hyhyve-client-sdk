@@ -1,61 +1,26 @@
 import { HyHyveComponent, corporateConfig } from '../src/index';
+import { generateRandomName, generateRandomHeadline, getBaseUrl, getSpaceId } from './utils/helpers';
 
+/**
+ * HyHyve Client SDK Example
+ * 
+ * This example demonstrates how to use the HyHyve component with:
+ * - Random user profile generation
+ * - Environment-based configuration
+ * - Interactive demo controls
+ * 
+ * The code has been split into focused modules:
+ * - data/random-data.ts: Sample data for generating profiles
+ * - utils/helpers.ts: Utility functions for configuration
+ */
+
+// Initialize the HyHyve component
 const hyhyve = new HyHyveComponent();
 
-// Random name generation
-const firstNames = [
-  'Alex', 'Jordan', 'Taylor', 'Casey', 'Morgan', 'Riley', 'Avery', 'Quinn',
-  'Sam', 'Blake', 'Cameron', 'Drew', 'Emery', 'Finley', 'Harper', 'Hayden',
-  'Jamie', 'Kai', 'Lane', 'Logan', 'Max', 'Nova', 'Parker', 'Reese',
-  'River', 'Rowan', 'Sage', 'Skyler', 'Tatum', 'Wren'
-];
-
-const lastNames = [
-  'Anderson', 'Brown', 'Chen', 'Davis', 'Evans', 'Foster', 'Garcia', 'Harris',
-  'Johnson', 'Kim', 'Lee', 'Martinez', 'Miller', 'Nelson', 'O\'Connor', 'Patel',
-  'Rodriguez', 'Smith', 'Taylor', 'Thompson', 'Walker', 'White', 'Wilson', 'Young',
-  'Zhang', 'Adams', 'Baker', 'Clark', 'Green', 'Hall'
-];
-
-const adjectives = [
-  'Creative', 'Innovative', 'Dynamic', 'Strategic', 'Collaborative', 'Analytical',
-  'Passionate', 'Dedicated', 'Experienced', 'Versatile', 'Proactive', 'Results-driven',
-  'Tech-savvy', 'Forward-thinking', 'Solution-oriented', 'Detail-oriented'
-];
-
-const roles = [
-  'Developer', 'Designer', 'Manager', 'Consultant', 'Specialist', 'Analyst',
-  'Engineer', 'Coordinator', 'Strategist', 'Lead', 'Expert', 'Architect'
-];
-
-const generateRandomName = (): string => {
-  const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
-  const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-  return `${firstName} ${lastName}`;
-};
-
-const generateRandomHeadline = (): string => {
-  const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
-  const role = roles[Math.floor(Math.random() * roles.length)];
-  return `${adjective} ${role}`;
-};
-
-// Determine base URL based on environment
-const getBaseUrl = () => {
-  // Check if we're running on localhost (development)
-  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    return 'http://localhost:1234';
-  }
-  // Use production URL when hosted
-  return window.location.origin;
-};
-
-const getSpaceId = (): string => {
-  const input = document.getElementById('spaceIdInput') as HTMLInputElement;
-  return input?.value?.trim() || 'HyHyvePub';
-};
-
-const attach = () => {
+/**
+ * Attach HyHyve component with random user profile
+ */
+const attachHyHyve = () => {
   const spaceId = getSpaceId();
   const randomName = generateRandomName();
   const randomHeadline = generateRandomHeadline();
@@ -65,7 +30,6 @@ const attach = () => {
   hyhyve.attach("#hyhyve", {
     spaceId: spaceId,
     embedded: true,
-    baseUrl: getBaseUrl(),
     whitelabelSettings: corporateConfig,
     auth: {
       tag: "complete",
@@ -80,28 +44,37 @@ const attach = () => {
         emoji: '🚀',
         status: 'Ready to connect!'
       }
-    }
+    },
+
+    // NOTE: For production embedding, do NOT set baseUrl - it will default to https://app.hyhyve.com/
+    // This baseUrl setting is only for local development/testing purposes
+    baseUrl: getBaseUrl(), // ! Did you read the comment above?
   });
-}
+};
 
-attach()
+// Initial attachment
+attachHyHyve();
 
-// Example of destroying the component
+/**
+ * Event handlers for demo buttons
+ */
+
+// Destroy component
 document.getElementById('destroyBtn')?.addEventListener('click', () => {
   hyhyve.destroy();
   console.log('Component destroyed!');
 });
 
-// Example of attaching with new random identity
+// Attach with new random identity
 document.getElementById('attachBtn')?.addEventListener('click', () => {
   hyhyve.destroy();
-  attach()
-  console.log('Component Attached!');
+  attachHyHyve();
+  console.log('Component attached!');
 });
 
-// Example of generating new random identity and reconnecting
+// Generate new random identity and reconnect
 document.getElementById('randomizeBtn')?.addEventListener('click', () => {
   hyhyve.destroy();
-  attach()
+  attachHyHyve();
   console.log('New random identity generated and attached!');
 });
