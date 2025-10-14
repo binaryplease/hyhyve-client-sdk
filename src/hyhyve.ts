@@ -9,20 +9,27 @@ export type HyHyveOptions = {
   baseUrl?: string
 }
 
-type AuthOptions = {
-  tag: "complete"
-  profile: {
-    name: string
-    avatar: string
-    color: string
-    picture: string
-    socials: string[]
-    headline: string
-    distance: number
-    emoji: string
-    status: string
+export type AuthOptions =
+  | {
+    tag: "complete"
+    profile: {
+      name: string
+      avatar: string
+      color: string
+      picture: string
+      socials: string[]
+      headline: string
+      distance: number
+      emoji: string
+      status: string
+    }
+  } | {
+    tag: "jwt"
+    /** JWT token signed with your client API key (HS256) */
+    token: string
+    /** Your HyHyve client ID */
+    clientId: string
   }
-}
 
 /**
  * HyHyve Web Component

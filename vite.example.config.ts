@@ -8,7 +8,8 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'example/index.html')
+        main: resolve(__dirname, 'example/index.html'),
+        jwtAuth: resolve(__dirname, 'example/jwt-auth-example.html')
       }
     }
   },

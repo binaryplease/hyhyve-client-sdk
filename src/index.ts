@@ -25,6 +25,7 @@ export { HyHyveComponent, default } from './hyhyve';
 // Export types
 export type {
   HyHyveOptions,
+  AuthOptions,
 } from './hyhyve';
 
 export type {

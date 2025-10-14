@@ -61,6 +61,97 @@ interface HyHyveOptions {
 
 ### Authentication
 
+#### JWT Authentication (Recommended)
+
+Authenticate users with a JWT token signed by your backend server:
+
+```typescript
+const hyhyve = new HyHyveComponent();
+hyhyve.attach('#container', {
+  spaceId: 'your-space-id',
+  auth: {
+    tag: "jwt",
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...', // JWT signed with your API key
+    clientId: 'your-client-id'
+  }
+});
+```
+
+The JWT should be signed by your backend using your HyHyve API key (HS256 algorithm) with the following payload:
+
+```json
+{
+  "clientReferenceId": "your-user-id",
+  "profile": {
+    "name": "John Doe",
+    "avatar": "avatar1",
+    "color": "#007bff",
+    "picture": "https://example.com/avatar.jpg",
+    "socials": ["https://linkedin.com/in/johndoe"],
+    "headline": "Software Engineer",
+    "distance": 0,
+    "emoji": "👋",
+    "tag": "HyHyve",
+    "status": "Available"
+  }
+}
+```
+
+**Backend Example (Node.js):**
+
+```typescript
+import jwt from 'jsonwebtoken';
+
+// Generate JWT token for a user (on your backend)
+function generateHyHyveToken(userId: string, userProfile: any) {
+  const payload = {
+    clientReferenceId: userId,
+    profile: {
+      name: userProfile.name,
+      avatar: 'avatar1',
+      color: '#007bff',
+      picture: userProfile.avatarUrl,
+      socials: userProfile.socialLinks || [],
+      headline: userProfile.title || '',
+      distance: 0,
+      emoji: '👋',
+      tag: 'HyHyve',
+      status: 'Available'
+    }
+  };
+
+  // Sign with your HyHyve API key
+  return jwt.sign(payload, process.env.HYHYVE_API_KEY!, {
+    algorithm: 'HS256',
+    expiresIn: '5m' // Short expiry recommended
+  });
+}
+
+// API endpoint to get token
+app.get('/api/hyhyve-token', authenticateUser, (req, res) => {
+  const token = generateHyHyveToken(req.user.id, req.user.profile);
+  res.json({ token, clientId: process.env.HYHYVE_CLIENT_ID });
+});
+```
+
+**Frontend Usage:**
+
+```typescript
+// Fetch token from your backend
+const response = await fetch('/api/hyhyve-token');
+const { token, clientId } = await response.json();
+
+// Use token to authenticate with HyHyve
+hyhyve.attach('#container', {
+  spaceId: 'your-space-id',
+  auth: { tag: "jwt", token, clientId }
+});
+```
+
+#### Direct Profile Authentication
+
+Alternatively, pass the user profile directly (client-side only):
+
 ```typescript
 const hyhyve = new HyHyveComponent();
 hyhyve.attach('#container', {
@@ -182,6 +273,33 @@ import type {
 } from '@hyhyve/client-sdk';
 ```
 
+## Live Examples
+
+The SDK includes several working examples that demonstrate different features:
+
+### Basic Example
+- **File**: `example/example.html`
+- **Features**: Random user profiles, corporate whitelabel config, interactive controls
+- **Run**: `npm run example`
+
+### JWT Authentication Example
+- **File**: `example/jwt-auth-example.html`
+- **Features**: Secure JWT-based authentication, backend integration guide, modal with backend code
+- **Description**: Demonstrates how to implement server-side JWT authentication for secure user login
+- **Key Points**:
+  - Shows client-side integration
+  - Includes backend implementation example
+  - Explains security best practices
+  - Mock token fetching (replace with real API call)
+
+To run the examples locally:
+```bash
+cd client-sdk
+npm install
+npm run example
+```
+
+Then open your browser to the local development server (usually `http://localhost:5173`).
 
 ## License
 

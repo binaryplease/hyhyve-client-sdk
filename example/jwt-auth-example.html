@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width,height=device-height,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>HyHyve SDK - JWT Authentication Example</title>
+  <script type="module" src="./jwt-auth-example.ts"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+      height: 100vh;
+      width: 100vw;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      font-size: 14px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .container {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      min-height: 0;
+      background-image: url('./noisy-texture-100x100-o4-d10-c-f34379-t1.png');
+      background-repeat: repeat;
+      background-size: 100px 100px;
+      background-blend-mode: multiply;
+    }
+
+    .sidebar {
+      padding: 8px;
+      flex-shrink: 0;
+      width: 320px;
+      overflow-y: auto;
+    }
+
+    .sidebar h1 {
+      margin: 0 0 8px 0;
+      font-size: 28px;
+    }
+
+    .sidebar h2 {
+      margin: 0 0 16px 0;
+      font-size: 18px;
+      font-weight: 500;
+      opacity: 0.9;
+    }
+
+    .info-box {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      padding: 16px;
+      margin: 16px 0;
+      line-height: 1.6;
+    }
+
+    .info-box h3 {
+      margin: 0 0 8px 0;
+      font-size: 14px;
+      font-weight: 600;
+      opacity: 0.9;
+    }
+
+    .info-box p {
+      margin: 0;
+      font-size: 13px;
+      opacity: 0.85;
+    }
+
+    .info-box ul {
+      margin: 8px 0 0 0;
+      padding-left: 20px;
+      font-size: 13px;
+      opacity: 0.85;
+    }
+
+    .info-box li {
+      margin: 4px 0;
+    }
+
+    .status {
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
+      padding: 12px;
+      margin: 16px 0;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      border: none;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin: 4px;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary {
+      background-color: #4ade80;
+      color: #065f46;
+      font-weight: bold;
+    }
+
+    .btn-secondary {
+      background-color: #8b5cf6;
+      color: white;
+      font-weight: bold;
+    }
+
+    .btn-danger {
+      background-color: #ef4444;
+      color: white;
+      font-weight: bold;
+    }
+
+    .btn-info {
+      background-color: #06b6d4;
+      color: white;
+      font-weight: bold;
+    }
+
+    .content {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #hyhyve {
+      flex: 1;
+      min-height: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background-color: #1e293b;
+      border-radius: 12px;
+      padding: 24px;
+      max-width: 800px;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content h3 {
+      margin: 0 0 16px 0;
+      color: white;
+    }
+
+    .code-block {
+      background-color: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 16px;
+      overflow-x: auto;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #e2e8f0;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+      justify-content: flex-end;
+    }
+
+    a {
+      color: white;
+      text-decoration: none;
+      opacity: 0.9;
+    }
+
+    a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <h1>🔐 JWT Auth</h1>
+      <h2>HyHyve SDK Example</h2>
+
+      <p style="font-size: 13px; opacity: 0.85; line-height: 1.6;">
+        This example demonstrates secure JWT-based authentication with the HyHyve SDK.
+      </p>
+
+      <div class="info-box">
+        <h3>🔑 How JWT Auth Works</h3>
+        <ul>
+          <li>Your backend signs a JWT with your API key</li>
+          <li>Frontend receives the token securely</li>
+          <li>Token is passed to HyHyve for authentication</li>
+          <li>User is authenticated automatically</li>
+        </ul>
+      </div>
+
+      <div class="status" id="status">
+        ⚪ Initializing...
+      </div>
+
+      <div style="margin-top: 20px;">
+        <button id="reconnectBtn" class="btn btn-primary">
+          🔄 Reconnect
+        </button>
+        <button id="destroyBtn" class="btn btn-danger">
+          🗑️ Destroy
+        </button>
+        <button id="showBackendBtn" class="btn btn-info" style="width: 100%; margin-top: 8px;">
+          📄 View Backend Code
+        </button>
+      </div>
+
+      <div class="info-box" style="margin-top: 16px;">
+        <h3>⚠️ Important</h3>
+        <p>
+          This is a CLIENT-SIDE DEMO. In production, your backend must:
+        </p>
+        <ul>
+          <li>Create and sign JWTs with your API key</li>
+          <li>NEVER expose your API key to clients</li>
+          <li>Implement proper user authentication</li>
+          <li>Use short token expiry times (5-15 min)</li>
+        </ul>
+      </div>
+
+      <p style="font-size: 12px; opacity: 0.7; margin-top: 24px;">
+        <a href="https://www.npmjs.com/package/@hyhyve/client-sdk" target="_blank">
+          📚 View Full Documentation ↗
+        </a>
+      </p>
+    </div>
+
+    <div class="content">
+      <div id="hyhyve"></div>
+    </div>
+  </div>
+
+  <!-- Backend Code Modal -->
+  <div id="backendModal" class="modal">
+    <div class="modal-content">
+      <h3>Backend Implementation Example (Node.js/Express)</h3>
+      <div class="code-block">
+        <pre id="backendCode">import express from 'express';
+import jwt from 'jsonwebtoken';
+
+const app = express();
+
+// Middleware to authenticate user session
+function authenticateUser(req, res, next) {
+  // Your session/auth logic here
+  if (!req.session?.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  next();
+}
+
+// Endpoint to generate HyHyve JWT token
+app.get('/api/hyhyve-token', authenticateUser, async (req, res) => {
+  const user = await getUserById(req.session.userId);
+  
+  const payload = {
+    clientReferenceId: user.id,
+    profile: {
+      name: user.name,
+      avatar: 'avatar1',
+      color: '#007bff',
+      picture: user.avatarUrl || '',
+      socials: user.socialLinks || [],
+      headline: user.title || '',
+      distance: 0,
+      emoji: '👋',
+      tag: 'HyHyve',
+      status: 'Available'
+    }
+  };
+  
+  // Sign with your HyHyve API key (NEVER expose this!)
+  const token = jwt.sign(payload, process.env.HYHYVE_API_KEY!, {
+    algorithm: 'HS256',
+    expiresIn: '5m' // Short expiry recommended
+  });
+  
+  res.json({
+    token,
+    clientId: process.env.HYHYVE_CLIENT_ID
+  });
+});
+
+app.listen(3000, () => {
+  console.log('Server running on http://localhost:3000');
+});</pre>
+      </div>
+      <div class="modal-buttons">
+        <button id="copyCodeBtn" class="btn btn-primary">
+          📋 Copy Code
+        </button>
+        <button id="closeModalBtn" class="btn btn-secondary">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
