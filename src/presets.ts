@@ -70,7 +70,7 @@ export const basicConfig: WhitelabelSettings = {
         shade1: "#0f172a", // slate-900
         shade2: "#1e293b", // slate-800
         shade3: "#334155", // slate-700
-        shade4: "#cbd5e1"  // slate-300 (active state for dark)
+        shade4: "#cbd5e1"  // slate-300 (active state)
       }
     }
   }

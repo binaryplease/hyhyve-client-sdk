@@ -173,11 +173,17 @@ hyhyve.attach('#container', {
 });
 ```
 
-## Whitelabel Configuration Examples
+## Whitelabel Configuration
+
+The SDK provides comprehensive whitelabel customization options to integrate HyHyve seamlessly into your application with your own branding.
+
+📖 **[Complete WhiteLabel Documentation](./WHITELABEL.md)**
+
+### Quick Examples
+
+#### Using Presets
 
 The SDK includes several preset configurations for common use cases:
-
-### Available Presets
 
 ```typescript
 import { 
@@ -186,22 +192,14 @@ import {
   embeddedConfig,
   corporateConfig 
 } from '@hyhyve/client-sdk';
-```
 
-#### Blank Preset
-Removes all HyHyve branding for maximum customization:
-
-```typescript
+// Complete branding removal
 hyhyve.attach('#container', {
   spaceId: 'your-space-id',
   whitelabelSettings: blankWhitelabelPreset
 });
-```
 
-#### Corporate Config
-Full corporate branding with custom themes:
-
-```typescript
+// Corporate branding with full themes
 hyhyve.attach('#container', {
   spaceId: 'your-space-id',
   whitelabelSettings: corporateConfig
@@ -233,6 +231,8 @@ hyhyve.attach('#container', {
   }
 });
 ```
+
+For detailed configuration options, type definitions, and advanced examples, see the **[WhiteLabel Configuration Guide](./WHITELABEL.md)**.
 
 ## API Methods
 
