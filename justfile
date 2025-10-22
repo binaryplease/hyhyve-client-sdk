@@ -21,5 +21,5 @@ typecheck:
     bunx tsc --noEmit
 
 # Run the example application
-example:
+dev-example:
     bunx vite dev example --port 3001

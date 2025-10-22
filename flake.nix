@@ -35,7 +35,6 @@
               # Build tools
               just
               bun
-              concurrently
               bash
               npm-check-updates
             ];
@@ -46,16 +45,18 @@
             common
             // {
               shellHook = ''
+                bun install
                 echo "
                     HyHyve Client SDK Dev Shell
-                    
-                    Available commands:
+
+                    To run the test example:
+                      just dev-example
+
+                    All available SDK development commands:
                       just build          - Build the SDK
                       just dev            - Development mode with watch
-                      just example        - Run example application
                       just typecheck      - Type checking
-                      
-                    To get started run \`bun install\` and \`just build\`.
+                      just dev-example    - Run example application
                     "
               '';
             }

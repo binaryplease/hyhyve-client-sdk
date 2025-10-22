@@ -273,33 +273,32 @@ import type {
 } from '@hyhyve/client-sdk';
 ```
 
-## Live Examples
+## Run Live Example
 
-The SDK includes several working examples that demonstrate different features:
+The SDK includes a working example.
 
-### Basic Example
-- **File**: `example/example.html`
-- **Features**: Random user profiles, corporate whitelabel config, interactive controls
-- **Run**: `npm run example`
 
-### JWT Authentication Example
-- **File**: `example/jwt-auth-example.html`
-- **Features**: Secure JWT-based authentication, backend integration guide, modal with backend code
-- **Description**: Demonstrates how to implement server-side JWT authentication for secure user login
-- **Key Points**:
-  - Shows client-side integration
-  - Includes backend implementation example
-  - Explains security best practices
-  - Mock token fetching (replace with real API call)
+1. Start nix development shell
 
-To run the examples locally:
-```bash
-cd client-sdk
-npm install
-npm run example
+```sh
+nix develop
 ```
 
-Then open your browser to the local development server (usually `http://localhost:5173`).
+2. Run the example dev server
+ 
+```sh
+just dev-example
+```
+
+### No nix?
+
+Get it! https://nixos.org/download/
+
+Otherwise use [Bun](https://bun.com/) to run the bunx commands in the [justfile](./justfile) yourself.
+
+[<img src="./docs/images/bun.svg" width="50" height="50" />](https://bun.com/)
+
+
 
 ## License
 

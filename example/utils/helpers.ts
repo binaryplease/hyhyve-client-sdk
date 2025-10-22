@@ -26,9 +26,13 @@ export const generateRandomHeadline = (): string => {
  * Determine base URL based on environment
  */
 export const getBaseUrl = (): string => {
+  // Use BASE_URL environment variable if set
+  if (import.meta.env.VITE_BASE_URL) {
+    return import.meta.env.VITE_BASE_URL;
+  }
   // Check if we're running on localhost (development)
   if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    return 'http://localhost:1234';
+    return 'https://app.hyhyve.com';
   }
   // Use production URL when hosted
   return window.location.origin;
