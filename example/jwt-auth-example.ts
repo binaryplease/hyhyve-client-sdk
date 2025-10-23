@@ -122,14 +122,11 @@ const attachHyHyveWithJWT = async () => {
  *     clientReferenceId: user.id,
  *     profile: {
  *       name: user.name,
- *       avatar: 'avatar1',
  *       color: '#007bff',
  *       picture: user.avatarUrl || '',
  *       socials: user.socialLinks || [],
  *       headline: user.title || '',
- *       distance: 0,
  *       emoji: '👋',
- *       tag: 'HyHyve',
  *       status: 'Available'
  *     }
  *   };

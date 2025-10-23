@@ -14,14 +14,12 @@ export type AuthOptions =
     tag: "complete"
     profile: {
       name: string
-      avatar: string
-      color: string
-      picture: string
-      socials: string[]
-      headline: string
-      distance: number
-      emoji: string
-      status: string
+      color?: string
+      picture?: string
+      socials?: string[]
+      headline?: string
+      emoji?: string
+      status?: string
     }
   } | {
     tag: "jwt"

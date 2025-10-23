@@ -35,12 +35,10 @@ const attachHyHyve = () => {
       tag: "complete",
       profile: {
         name: randomName,
-        avatar: 'avatar2',
         color: corporateConfig.customBrand?.themes?.dark?.primary || "#60a5fa",
         picture: 'https://www.gravatar.com/avatar/00000000000000000000000000000000',
         socials: ['http://www.example.com/', 'https://linkedin.com/in/example'],
         headline: randomHeadline,
-        distance: 10.0,
         emoji: '🚀',
         status: 'Ready to connect!'
       }

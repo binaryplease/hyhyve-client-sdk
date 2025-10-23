@@ -84,17 +84,27 @@ The JWT should be signed by your backend using your HyHyve API key (HS256 algori
   "clientReferenceId": "your-user-id",
   "profile": {
     "name": "John Doe",
-    "avatar": "avatar1",
     "color": "#007bff",
     "picture": "https://example.com/avatar.jpg",
     "socials": ["https://linkedin.com/in/johndoe"],
     "headline": "Software Engineer",
-    "distance": 0,
     "emoji": "👋",
-    "tag": "HyHyve",
     "status": "Available"
   }
 }
+```
+
+**Required Fields:**
+- `clientReferenceId`: Your unique user identifier
+- `profile.name`: User's display name (max 80 chars)
+
+**Optional Profile Fields:**
+- `profile.color`: Hex color code (default: "#0eb3bc")
+- `profile.picture`: URL to profile picture (max 1024 chars, default: "")
+- `profile.socials`: Array of social URLs (max 5, default: [])
+- `profile.headline`: User's headline/bio (max 240 chars, default: "")
+- `profile.emoji`: User's emoji (max 32 chars, default: "👋")
+- `profile.status`: Status message (max 100 chars, default: "Hi there, I'm using HyHyve!"
 ```
 
 **Backend Example (Node.js):**
@@ -107,15 +117,12 @@ function generateHyHyveToken(userId: string, userProfile: any) {
   const payload = {
     clientReferenceId: userId,
     profile: {
-      name: userProfile.name,
-      avatar: 'avatar1',
+      name: userProfile.name, // Required
       color: '#007bff',
       picture: userProfile.avatarUrl,
       socials: userProfile.socialLinks || [],
       headline: userProfile.title || '',
-      distance: 0,
       emoji: '👋',
-      tag: 'HyHyve',
       status: 'Available'
     }
   };
@@ -159,13 +166,11 @@ hyhyve.attach('#container', {
   auth: {
     tag: "complete",
     profile: {
-      name: 'John Doe',
-      avatar: 'avatar1',
-      color: '#007bff',
+      name: 'John Doe',  // Required
+      color: '#007bff',   // Optional
       picture: 'https://example.com/avatar.jpg',
       socials: ['https://linkedin.com/in/johndoe'],
       headline: 'Software Engineer',
-      distance: 5.0,
       emoji: '👋',
       status: 'Available'
     }
