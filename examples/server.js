@@ -117,7 +117,7 @@ function generateHyHyveToken(user) {
   // Sign the token with HS256 algorithm
   const token = jwt.sign(payload, HYHYVE_API_KEY, {
     algorithm: 'HS256',
-    expiresIn: '1h' // Token expires in 1 hour
+    expiresIn: '5m' // Token expires in 5min
   });
 
   return token;
@@ -210,29 +210,6 @@ const server = Bun.serve({
     }
 
     /**
-     * API Endpoint: Get current user info
-     * Useful for debugging and testing
-     */
-    if (pathname === '/api/user' && request.method === 'GET') {
-      const userResult = getUserFromRequest(request, url);
-
-      if (userResult.error) {
-        return jsonResponse({
-          error: userResult.error,
-          message: userResult.message
-        }, userResult.status);
-      }
-
-      const user = userResult.user;
-      return jsonResponse({
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        headline: user.headline
-      });
-    }
-
-    /**
      * Health check endpoint
      */
     if (pathname === '/health' && request.method === 'GET') {
@@ -258,6 +235,7 @@ console.log(`📍 Server running on: http://localhost:${server.port}`);
 console.log('');
 console.log('📚 Available Endpoints:');
 console.log(`   GET  /api/hyhyve-token        - Generate HyHyve token`);
+console.log(`   GET  /health                  - Health status of the token server api`);
 console.log('');
 console.log('🧪 Test the token endpoint:');
 console.log(`   curl -H "x-user-id: user1" http://localhost:${server.port}/api/hyhyve-token`);

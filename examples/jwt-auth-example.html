@@ -8,6 +8,10 @@
   <meta name="robots" content="noindex, nofollow">
   <title>HyHyve SDK - JWT Authentication Example</title>
   <script type="module" src="./jwt-auth-example.ts"></script>
+  
+  <!-- Prism.js for code syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
 
   <style>
     * {
@@ -147,6 +151,17 @@
       font-weight: bold;
     }
 
+    .btn-info.active {
+      background-color: #0e7490;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+      transform: scale(0.98);
+    }
+
+    .btn-info:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
     .content {
       flex: 1;
       min-width: 0;
@@ -191,16 +206,94 @@
       color: white;
     }
 
+    /* Catppuccin Mocha theme for code blocks */
     .code-block {
-      background-color: #0f172a;
-      border: 1px solid #334155;
+      background-color: #1e1e2e;
+      border: 1px solid #313244;
       border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .code-block pre {
+      margin: 0;
       padding: 16px;
       overflow-x: auto;
       font-family: 'Monaco', 'Courier New', monospace;
       font-size: 13px;
       line-height: 1.6;
-      color: #e2e8f0;
+      background-color: #1e1e2e;
+    }
+
+    .code-block code {
+      font-family: 'Monaco', 'Courier New', monospace;
+      text-shadow: none;
+      color: #cdd6f4;
+    }
+
+    /* Catppuccin Mocha Prism.js theme */
+    .token.comment,
+    .token.prolog,
+    .token.doctype,
+    .token.cdata {
+      color: #6c7086;
+      font-style: italic;
+    }
+
+    .token.punctuation {
+      color: #bac2de;
+    }
+
+    .token.property,
+    .token.tag,
+    .token.boolean,
+    .token.number,
+    .token.constant,
+    .token.symbol,
+    .token.deleted {
+      color: #fab387;
+    }
+
+    .token.selector,
+    .token.attr-name,
+    .token.string,
+    .token.char,
+    .token.builtin,
+    .token.inserted {
+      color: #a6e3a1;
+    }
+
+    .token.operator,
+    .token.entity,
+    .token.url,
+    .language-css .token.string,
+    .style .token.string {
+      color: #89dceb;
+    }
+
+    .token.atrule,
+    .token.attr-value,
+    .token.keyword {
+      color: #cba6f7;
+    }
+
+    .token.function,
+    .token.class-name {
+      color: #89b4fa;
+    }
+
+    .token.regex,
+    .token.important,
+    .token.variable {
+      color: #f9e2af;
+    }
+
+    .token.important,
+    .token.bold {
+      font-weight: bold;
+    }
+
+    .token.italic {
+      font-style: italic;
     }
 
     .modal-buttons {
@@ -280,8 +373,19 @@
 
       <div class="info-box" style="margin-top: 16px;">
         <h3>👥 Test Users</h3>
-        <p style="margin-bottom: 8px;">Currently using: <strong>user1 (Alice Johnson)</strong></p>
-        <p style="font-size: 12px; opacity: 0.8;">Available users: user1, user2, user3</p>
+        <p style="margin-bottom: 8px;">Currently logged in as:</p>
+        <p style="font-size: 14px; font-weight: bold; margin-bottom: 12px;" id="currentUser">user1 (Alice Johnson)</p>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <button class="btn btn-info" data-user-id="user1" style="width: 100%; justify-content: flex-start; padding: 12px 16px;">
+            🚀 <span style="margin-left: 8px;">Alice Johnson</span>
+          </button>
+          <button class="btn btn-info" data-user-id="user2" style="width: 100%; justify-content: flex-start; padding: 12px 16px;">
+            💻 <span style="margin-left: 8px;">Bob Smith</span>
+          </button>
+          <button class="btn btn-info" data-user-id="user3" style="width: 100%; justify-content: flex-start; padding: 12px 16px;">
+            🎨 <span style="margin-left: 8px;">Carol Williams</span>
+          </button>
+        </div>
       </div>
 
       <div class="info-box" style="margin-top: 16px;">
@@ -312,54 +416,137 @@
   <!-- Backend Code Modal -->
   <div id="backendModal" class="modal">
     <div class="modal-content">
-      <h3>Backend Implementation Example (Node.js/Express)</h3>
+      <h3>Backend Implementation Example (Bun Server)</h3>
       <div class="code-block">
-        <pre id="backendCode">import express from 'express';
-import jwt from 'jsonwebtoken';
+        <pre><code id="backendCode" class="language-javascript">import jwt from 'jsonwebtoken';
 
-const app = express();
+// Bun automatically loads .env files, no need for dotenv package
+const PORT = process.env.PORT || 3000;
 
-// Middleware to authenticate user session
-function authenticateUser(req, res, next) {
-  // Your session/auth logic here
-  if (!req.session?.userId) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
-  next();
+// Validate environment variables
+const HYHYVE_API_KEY = process.env.HYHYVE_API_KEY;
+const HYHYVE_CLIENT_ID = process.env.HYHYVE_CLIENT_ID;
+
+if (!HYHYVE_API_KEY || !HYHYVE_CLIENT_ID) {
+  console.error('❌ Missing required environment variables!');
+  console.error('Please set HYHYVE_API_KEY and HYHYVE_CLIENT_ID in your .env file');
+  process.exit(1);
 }
 
-// Endpoint to generate HyHyve JWT token
-app.get('/api/hyhyve-token', authenticateUser, async (req, res) => {
-  const user = await getUserById(req.session.userId);
-  
+/**
+ * Generate HyHyve JWT Token
+ * 
+ * This function creates a JWT token that authenticates a user with HyHyve.
+ * The token contains the user's profile information and is signed with your API key.
+ */
+function generateHyHyveToken(user) {
   const payload = {
+    // Required: Unique identifier for the user in your system
     clientReferenceId: user.id,
+
+    // Required: User profile
     profile: {
+      // Required: User's display name (max 80 characters)
       name: user.name,
-      color: '#007bff',
-      picture: user.avatarUrl || '',
-      socials: user.socialLinks || [],
-      headline: user.title || '',
-      emoji: '👋',
-      status: 'Available'
-    }
+
+      // Optional: User's profile picture URL
+      picture: user.picture,
+
+      // Optional: Hex color for user (e.g., '#3b82f6')
+      color: user.color,
+
+      // Optional: Social media links
+      socials: user.socials,
+
+      // Optional: User's headline/title
+      headline: user.headline,
+
+      // Optional: Emoji representation
+      emoji: user.emoji,
+
+      // Optional: Current status message
+      status: user.status
+    },
+
+    // Token issued at timestamp
+    iat: Math.floor(Date.now() / 1000)
   };
-  
-  // Sign with your HyHyve API key (NEVER expose this!)
-  const token = jwt.sign(payload, process.env.HYHYVE_API_KEY!, {
+
+  // Sign the token with HS256 algorithm
+  const token = jwt.sign(payload, HYHYVE_API_KEY, {
     algorithm: 'HS256',
-    expiresIn: '5m' // Short expiry recommended
+    expiresIn: '5m' // Token expires in 5min
   });
-  
-  res.json({
-    token,
-    clientId: process.env.HYHYVE_CLIENT_ID
-  });
+
+  return token;
+}
+
+/**
+ * Bun HTTP server
+ */
+const server = Bun.serve({
+  port: PORT,
+
+  async fetch(request) {
+    const url = new URL(request.url);
+    const { pathname } = url;
+
+    // Handle CORS preflight
+    if (request.method === 'OPTIONS') {
+      return new Response(null, {
+        status: 204,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, x-user-id',
+        },
+      });
+    }
+
+    /**
+     * API Endpoint: Get HyHyve authentication token
+     * 
+     * GET /api/hyhyve-token
+     * 
+     * Headers:
+     *   x-user-id: User identifier
+     */
+    if (pathname === '/api/hyhyve-token' && request.method === 'GET') {
+      const userId = request.headers.get('x-user-id') || url.searchParams.get('userId');
+      
+      if (!userId) {
+        return new Response(JSON.stringify({
+          error: 'Unauthorized',
+          message: 'User ID not provided'
+        }), { status: 401 });
+      }
+
+      try {
+        const user = getUserById(userId); // Your user lookup logic
+        const token = generateHyHyveToken(user);
+
+        return new Response(JSON.stringify({
+          token,
+          clientId: HYHYVE_CLIENT_ID,
+          expiresIn: 3600
+        }), {
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          }
+        });
+      } catch (error) {
+        return new Response(JSON.stringify({
+          error: 'Internal server error'
+        }), { status: 500 });
+      }
+    }
+
+    return new Response('Not found', { status: 404 });
+  },
 });
 
-app.listen(3000, () => {
-  console.log('Server running on http://localhost:3000');
-});</pre>
+console.log(`🚀 Server running on: http://localhost:${server.port}`);</code></pre>
       </div>
       <div class="modal-buttons">
         <button id="copyCodeBtn" class="btn btn-primary">
@@ -380,7 +567,16 @@ app.listen(3000, () => {
     const copyBtn = document.getElementById('copyCodeBtn');
 
     showBtn?.addEventListener('click', () => {
-      if (modal) modal.style.display = 'flex';
+      if (modal) {
+        modal.style.display = 'flex';
+        // Highlight the code when modal opens
+        if (window.Prism) {
+          const codeElement = document.getElementById('backendCode');
+          if (codeElement) {
+            window.Prism.highlightElement(codeElement);
+          }
+        }
+      }
     });
 
     closeBtn?.addEventListener('click', () => {

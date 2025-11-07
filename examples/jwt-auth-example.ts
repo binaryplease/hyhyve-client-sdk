@@ -18,6 +18,16 @@ import { getSpaceId } from './utils/helpers';
 // Initialize the HyHyve component
 const hyhyve = new HyHyveComponent();
 
+// Track the current user
+let currentUserId = 'user1'; // Default to Alice Johnson
+
+// User display names for UI updates
+const userDisplayNames: Record<string, string> = {
+  'user1': 'Alice Johnson',
+  'user2': 'Bob Smith',
+  'user3': 'Carol Williams'
+};
+
 /**
  * Fetch JWT token from the backend server
  * The server authenticates the user and generates a signed JWT token
@@ -53,12 +63,34 @@ async function fetchJWTFromBackend(userId: string): Promise<{ token: string, cli
 }
 
 /**
+ * Update the UI to reflect the current user
+ */
+function updateUserUI(userId: string) {
+  const currentUserEl = document.getElementById('currentUser');
+  if (currentUserEl) {
+    currentUserEl.textContent = `${userId} (${userDisplayNames[userId]})`;
+  }
+
+  // Update button states
+  document.querySelectorAll('[data-user-id]').forEach((btn) => {
+    const button = btn as HTMLButtonElement;
+    const buttonUserId = button.getAttribute('data-user-id');
+    if (buttonUserId === userId) {
+      button.classList.add('active');
+      button.disabled = true;
+    } else {
+      button.classList.remove('active');
+      button.disabled = false;
+    }
+  });
+}
+
+/**
  * Attach HyHyve component with JWT authentication
  */
-const attachHyHyveWithJWT = async () => {
+const attachHyHyveWithJWT = async (userId: string = currentUserId) => {
   const spaceId = getSpaceId();
-  // Use one of the test users: user1, user2, or user3
-  const userId = 'user1'; // Alice Johnson
+  currentUserId = userId;
 
   try {
     // Show loading state
@@ -87,11 +119,14 @@ const attachHyHyveWithJWT = async () => {
     });
 
     if (statusEl) {
-      statusEl.textContent = '✅ Connected with JWT authentication';
+      statusEl.textContent = `✅ Connected as ${userDisplayNames[userId]}`;
       statusEl.style.color = '#4ade80';
     }
 
-    console.log(`🚀 HyHyve attached to space: ${spaceId} with JWT auth`);
+    // Update UI to show active user
+    updateUserUI(userId);
+
+    console.log(`🚀 HyHyve attached to space: ${spaceId} with JWT auth for ${userDisplayNames[userId]}`);
   } catch (error) {
     console.error('❌ Failed to authenticate:', error);
     const statusEl = document.getElementById('status');
@@ -144,8 +179,26 @@ const attachHyHyveWithJWT = async () => {
  * Event handlers for demo buttons
  */
 
+// User selection buttons
+document.querySelectorAll('[data-user-id]').forEach((btn) => {
+  btn.addEventListener('click', async (e) => {
+    const button = e.currentTarget as HTMLButtonElement;
+    const userId = button.getAttribute('data-user-id');
+
+    if (userId && userId !== currentUserId) {
+      console.log(`🔄 Switching to user: ${userDisplayNames[userId]}`);
+
+      // Destroy the current instance
+      hyhyve.destroy();
+
+      // Connect with the new user
+      await attachHyHyveWithJWT(userId);
+    }
+  });
+});
+
 // Initial connection with JWT
-attachHyHyveWithJWT();
+attachHyHyveWithJWT(currentUserId);
 
 // Destroy component
 document.getElementById('destroyBtn')?.addEventListener('click', () => {
@@ -162,6 +215,6 @@ document.getElementById('destroyBtn')?.addEventListener('click', () => {
 // Reconnect with JWT
 document.getElementById('reconnectBtn')?.addEventListener('click', () => {
   hyhyve.destroy();
-  attachHyHyveWithJWT();
-  console.log('Reconnecting with new JWT...');
+  attachHyHyveWithJWT(currentUserId);
+  console.log(`Reconnecting with new JWT for ${userDisplayNames[currentUserId]}...`);
 });
