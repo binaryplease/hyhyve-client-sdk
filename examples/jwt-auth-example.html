@@ -253,6 +253,15 @@
         </ul>
       </div>
 
+      <div class="info-box" style="background-color: rgba(59, 130, 246, 0.2); border-color: rgba(59, 130, 246, 0.4);">
+        <h3>🚀 Quick Start</h3>
+        <p style="margin-bottom: 8px;">Start the backend server first:</p>
+        <div style="background: rgba(0,0,0,0.3); padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px; margin-bottom: 8px;">
+          cd examples && node server.js
+        </div>
+        <p style="font-size: 12px; opacity: 0.8;">Make sure you have a .env file with HYHYVE_API_KEY and HYHYVE_CLIENT_ID</p>
+      </div>
+
       <div class="status" id="status">
         ⚪ Initializing...
       </div>
@@ -270,9 +279,15 @@
       </div>
 
       <div class="info-box" style="margin-top: 16px;">
+        <h3>👥 Test Users</h3>
+        <p style="margin-bottom: 8px;">Currently using: <strong>user1 (Alice Johnson)</strong></p>
+        <p style="font-size: 12px; opacity: 0.8;">Available users: user1, user2, user3</p>
+      </div>
+
+      <div class="info-box" style="margin-top: 16px;">
         <h3>⚠️ Important</h3>
         <p>
-          This is a CLIENT-SIDE DEMO. In production, your backend must:
+          This example uses a local backend server. In production:
         </p>
         <ul>
           <li>Create and sign JWTs with your API key</li>

@@ -19,29 +19,37 @@ import { getSpaceId } from './utils/helpers';
 const hyhyve = new HyHyveComponent();
 
 /**
- * Mock function to simulate fetching JWT token from backend
- * In production, this would be an actual API call to your server
+ * Fetch JWT token from the backend server
+ * The server authenticates the user and generates a signed JWT token
  */
 async function fetchJWTFromBackend(userId: string): Promise<{ token: string, clientId: string }> {
-  // MOCK IMPLEMENTATION - Replace with actual API call
-  // Example: const response = await fetch('/api/hyhyve-token');
-  // return await response.json();
-
   console.log(`🔐 Fetching JWT token for user: ${userId}`);
 
-  // Simulate network delay
-  await new Promise(resolve => setTimeout(resolve, 500));
+  try {
+    const response = await fetch('http://localhost:3000/api/hyhyve-token', {
+      method: 'GET',
+      headers: {
+        'x-user-id': userId,
+        'Content-Type': 'application/json'
+      }
+    });
 
-  // In a real app, your backend would:
-  // 1. Verify the user's session
-  // 2. Create a JWT payload with user profile
-  // 3. Sign it with your HyHyve API key (HS256)
-  // 4. Return the token and clientId
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to fetch token');
+    }
 
-  return {
-    token: 'MOCK_JWT_TOKEN_REPLACE_WITH_REAL_TOKEN',
-    clientId: 'MOCK_CLIENT_ID_REPLACE_WITH_REAL_ID'
-  };
+    const data = await response.json();
+    console.log(`✅ Token received from server`);
+
+    return {
+      token: data.token,
+      clientId: data.clientId
+    };
+  } catch (error) {
+    console.error('❌ Error fetching token from backend:', error);
+    throw error;
+  }
 }
 
 /**
@@ -49,7 +57,8 @@ async function fetchJWTFromBackend(userId: string): Promise<{ token: string, cli
  */
 const attachHyHyveWithJWT = async () => {
   const spaceId = getSpaceId();
-  const userId = 'user-' + Math.random().toString(36).substring(7);
+  // Use one of the test users: user1, user2, or user3
+  const userId = 'user1'; // Alice Johnson
 
   try {
     // Show loading state
@@ -74,8 +83,7 @@ const attachHyHyveWithJWT = async () => {
         token: token,
         clientId: clientId
       },
-      // For local development only - remove in production
-      baseUrl: 'http://localhost:1234', // Uncomment for local dev
+      baseUrl: import.meta.env.VITE_HYHYVE_BASE_URL, // Defaults to production when unset
     });
 
     if (statusEl) {
