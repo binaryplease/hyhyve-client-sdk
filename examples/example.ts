@@ -1,4 +1,4 @@
-import { HyHyveComponent, corporateConfig } from '../src/index';
+import { HyHyveComponent, corporateConfig } from '@hyhyve/client-sdk';
 import { generateRandomName, generateRandomHeadline, getBaseUrl, getSpaceId } from './utils/helpers';
 
 /**

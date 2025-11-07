@@ -2,12 +2,6 @@
 build:
     bunx vite build && bunx tsc --emitDeclarationOnly --outDir dist
 
-# Build the example and copy to client build directory
-build-example:
-    bunx vite build --config vite.example.config.ts
-    mkdir -p ../client/build/sdk/example
-    cp -r example-dist/* ../client/build/sdk/example/
-
 # Development mode with watch
 dev:
     bunx vite build --watch
@@ -20,6 +14,18 @@ preview:
 typecheck:
     bunx tsc --noEmit
 
-# Run the example application
-dev-example:
-    bunx vite dev example --port 3001
+# Install dependencies for examples
+install-examples:
+    cd examples && npm install
+
+# Run the examples application
+dev-examples:
+    cd examples && npm run dev
+
+# Build the examples
+build-examples:
+    cd examples && npm run build
+
+# Preview built examples
+preview-examples:
+    cd examples && npm run preview

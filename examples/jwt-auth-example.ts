@@ -1,4 +1,4 @@
-import { HyHyveComponent, blankWhitelabelPreset } from '../src/index';
+import { HyHyveComponent, blankWhitelabelPreset } from '@hyhyve/client-sdk';
 import { getSpaceId } from './utils/helpers';
 
 /**
@@ -75,7 +75,7 @@ const attachHyHyveWithJWT = async () => {
         clientId: clientId
       },
       // For local development only - remove in production
-      // baseUrl: 'http://localhost:1234', // Uncomment for local dev
+      baseUrl: 'http://localhost:1234', // Uncomment for local dev
     });
 
     if (statusEl) {
@@ -99,104 +99,61 @@ const attachHyHyveWithJWT = async () => {
  * 
  * Here's what your backend endpoint should look like (Node.js/Express example):
  * 
- * ```typescript
- * import express from 'express';
- * import jwt from 'jsonwebtoken';
- * 
+ * ```javascript
+ * const jwt = require('jsonwebtoken');
+ * const express = require('express');
  * const app = express();
  * 
- * // Middleware to authenticate user session
- * function authenticateUser(req, res, next) {
- *   // Your session/auth logic here
- *   if (!req.session?.userId) {
- *     return res.status(401).json({ error: 'Unauthorized' });
- *   }
- *   next();
- * }
- * 
- * // Endpoint to generate HyHyve JWT token
- * app.get('/api/hyhyve-token', authenticateUser, async (req, res) => {
- *   const user = await getUserById(req.session.userId);
+ * app.get('/api/hyhyve-token', async (req, res) => {
+ *   // 1. Verify user session (your auth logic)
+ *   const user = req.user; // from your session/auth middleware
  *   
+ *   // 2. Create JWT payload
  *   const payload = {
- *     clientReferenceId: user.id,
- *     profile: {
- *       name: user.name,
- *       color: '#007bff',
- *       picture: user.avatarUrl || '',
- *       socials: user.socialLinks || [],
- *       headline: user.title || '',
- *       emoji: '👋',
- *       status: 'Available'
- *     }
+ *     sub: user.id,
+ *     name: user.name,
+ *     email: user.email,
+ *     picture: user.avatarUrl,
+ *     iat: Math.floor(Date.now() / 1000)
  *   };
  *   
- *   // Sign with your HyHyve API key (NEVER expose this to clients!)
- *   const token = jwt.sign(payload, process.env.HYHYVE_API_KEY!, {
+ *   // 3. Sign with your HyHyve API key (keep this secret!)
+ *   const token = jwt.sign(payload, process.env.HYHYVE_API_KEY, {
  *     algorithm: 'HS256',
- *     expiresIn: '5m' // Short expiry recommended
+ *     expiresIn: '1h'
  *   });
  *   
+ *   // 4. Return token and clientId
  *   res.json({
- *     token,
+ *     token: token,
  *     clientId: process.env.HYHYVE_CLIENT_ID
  *   });
  * });
  * ```
  */
 
-// Initial attachment
-attachHyHyveWithJWT();
-
 /**
  * Event handlers for demo buttons
  */
 
+// Initial connection with JWT
+attachHyHyveWithJWT();
+
 // Destroy component
 document.getElementById('destroyBtn')?.addEventListener('click', () => {
   hyhyve.destroy();
-  console.log('🗑️ Component destroyed!');
+  console.log('Component destroyed!');
+
   const statusEl = document.getElementById('status');
   if (statusEl) {
-    statusEl.textContent = '⚪ Component destroyed';
-    statusEl.style.color = '#94a3b8';
+    statusEl.textContent = '⏸️ Disconnected';
+    statusEl.style.color = '#9ca3af';
   }
 });
 
-// Reconnect with new JWT token
+// Reconnect with JWT
 document.getElementById('reconnectBtn')?.addEventListener('click', () => {
-  console.log('🔄 Reconnecting with new JWT token...');
   hyhyve.destroy();
   attachHyHyveWithJWT();
-});
-
-// Show backend code example
-document.getElementById('showBackendBtn')?.addEventListener('click', () => {
-  const modal = document.getElementById('backendModal');
-  if (modal) {
-    modal.style.display = 'flex';
-  }
-});
-
-// Close modal
-document.getElementById('closeModalBtn')?.addEventListener('click', () => {
-  const modal = document.getElementById('backendModal');
-  if (modal) {
-    modal.style.display = 'none';
-  }
-});
-
-// Copy backend code
-document.getElementById('copyCodeBtn')?.addEventListener('click', () => {
-  const code = document.getElementById('backendCode')?.textContent || '';
-  navigator.clipboard.writeText(code).then(() => {
-    const btn = document.getElementById('copyCodeBtn');
-    if (btn) {
-      const originalText = btn.textContent;
-      btn.textContent = '✓ Copied!';
-      setTimeout(() => {
-        btn.textContent = originalText;
-      }, 2000);
-    }
-  });
+  console.log('Reconnecting with new JWT...');
 });

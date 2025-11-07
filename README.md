@@ -278,10 +278,11 @@ import type {
 } from '@hyhyve/client-sdk';
 ```
 
-## Run Live Example
+## Examples
 
-The SDK includes a working example.
+The SDK includes working examples in the `examples/` directory. See the [Examples README](./examples/README.md) for more details.
 
+### Running Examples with Nix
 
 1. Start nix development shell
 
@@ -289,17 +290,38 @@ The SDK includes a working example.
 nix develop
 ```
 
-2. Run the example dev server
+2. Install examples dependencies
+
+```sh
+just install-examples
+```
+
+3. Run the examples dev server
  
 ```sh
-just dev-example
+just dev-examples
 ```
+
+### Running Examples without Nix
+
+```sh
+cd examples
+npm install
+npm run dev
+```
+
+The examples will be available at `http://localhost:3001`.
+
+### Available Examples
+
+- **Basic Example** - Demonstrates SDK usage with random user profiles
+- **JWT Authentication Example** - Shows how to implement JWT authentication
 
 ### No nix?
 
 Get it! https://nixos.org/download/
 
-Otherwise use [Bun](https://bun.com/) to run the bunx commands in the [justfile](./justfile) yourself.
+Otherwise use [Bun](https://bun.com/) or npm to run the commands in the [justfile](./justfile) yourself.
 
 [<img src="./docs/images/bun.svg" width="50" height="50" />](https://bun.com/)
 
