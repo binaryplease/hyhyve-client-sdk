@@ -128,7 +128,9 @@ const attachHyHyveWithJWT = async () => {
  *       headline: user.title || '',
  *       emoji: '👋',
  *       status: 'Available'
- *     }
+ *     },
+ *     // Set to true to grant team admin privileges
+ *     teamAdmin: user.isAdmin || false
  *   };
  *   
  *   // Sign with your HyHyve API key (NEVER expose this to clients!)

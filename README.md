@@ -90,7 +90,8 @@ The JWT should be signed by your backend using your HyHyve API key (HS256 algori
     "headline": "Software Engineer",
     "emoji": "👋",
     "status": "Available"
-  }
+  },
+  "teamAdmin": false
 }
 ```
 
@@ -105,6 +106,9 @@ The JWT should be signed by your backend using your HyHyve API key (HS256 algori
 - `profile.headline`: User's headline/bio (max 240 chars, default: "")
 - `profile.emoji`: User's emoji (max 32 chars, default: "👋")
 - `profile.status`: Status message (max 100 chars, default: "Hi there, I'm using HyHyve!"
+
+**Optional Fields:**
+- `teamAdmin`: Boolean (default: `false`). Set to `true` to grant the user team admin privileges for the team associated with your API client. This adds the user to the team's members list.
 ```
 
 **Backend Example (Node.js):**
@@ -124,7 +128,9 @@ function generateHyHyveToken(userId: string, userProfile: any) {
       headline: userProfile.title || '',
       emoji: '👋',
       status: 'Available'
-    }
+    },
+    // Set to true to grant team admin privileges
+    teamAdmin: userProfile.isAdmin || false
   };
 
   // Sign with your HyHyve API key
