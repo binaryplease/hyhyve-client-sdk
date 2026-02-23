@@ -89,6 +89,8 @@ export interface WhitelabelSettings {
   // Simplify features
   /** Simplify chat stickers */
   simplifyChatStickers?: boolean;
+  /** Disable resizing of round elements (action points) during multi-select */
+  disableRoundElementResize?: boolean;
 
   // Custom Branding
   /** Custom brand configuration */

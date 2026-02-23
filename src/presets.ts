@@ -28,6 +28,7 @@ export const blankWhitelabelPreset: WhitelabelSettings = {
   hideEditProfile: true,
   hideDeleteAccount: true,
   simplifyChatStickers: true,
+  disableRoundElementResize: true,
 
   // Custom Branding - ready for customization
   customBrand: null, // Can be set by integrator
