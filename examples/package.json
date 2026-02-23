@@ -14,7 +14,9 @@
     "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.1.17",
     "@types/node": "^24.6.1",
+    "tailwindcss": "^4.1.17",
     "typescript": "^5.9.3",
     "vite": "^7.1.7"
   }

@@ -7,118 +7,50 @@
     content="width=device-width,height=device-height,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1">
   <meta name="robots" content="noindex, nofollow">
   <title>HyHyve SDK Example</title>
+  <link rel="stylesheet" href="./style.css">
   <script type="module" src="./example.ts"></script>
-
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-
-      height: 100vh;
-      width: 100vw;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      font-size: 14px;
-
-      background-image: linear-gradient(135deg, #667eea, #764ba2);
-
-      color: white;
-    }
-
-    #spaceIdInput::placeholder {
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    #spaceIdInput:focus {
-      outline: none;
-      border-color: rgba(255, 255, 255, 0.6);
-      background-color: rgba(255, 255, 255, 0.15);
-    }
-  </style>
 </head>
 
-<body>
-  <div style="
-      flex: 1;
-      padding: 20px;
-      display: flex;
-      flex-direction: row;
-      gap: 20px;
-      box-sizing: border-box;
-      min-height: 0;
-      background-image: url('./noisy-texture-100x100-o4-d10-c-f34379-t1.png');
-      background-repeat: repeat;
-      background-size: 100px 100px;
-      background-blend-mode: multiply;
-">
-    <div style="padding: 8px; flex-shrink: 0;">
-      <h2>HyHyve</h2>
-      <h1>Web Component SDK</h1>
-      <p>This example demonstrates the HyHyve SDK integration.</p>
-      <p><a href="https://www.npmjs.com/package/@hyhyve/client-sdk" target="_blank"
-          style="color: white; text-decoration: none;">↗️ View Documentation</a></p>
+<body class="h-screen w-screen m-0 p-0 flex text-sm bg-linear-to-br from-indigo-500 to-purple-600 text-white font-sans">
+  <div class="flex-1 p-5 flex flex-row gap-5 box-border min-h-0" 
+       style="background-image: url('./noisy-texture-100x100-o4-d10-c-f34379-t1.png'); background-repeat: repeat; background-size: 100px 100px; background-blend-mode: multiply;">
+    <div class="p-2 shrink-0">
+      <h2 class="text-lg font-semibold">HyHyve</h2>
+      <h1 class="text-2xl font-bold">Web Component SDK</h1>
+      <p class="mt-2">This example demonstrates the HyHyve SDK integration.</p>
+      <p class="mt-2">
+        <a href="https://www.npmjs.com/package/@hyhyve/client-sdk" target="_blank" 
+           class="text-white no-underline hover:underline">↗️ View Documentation</a>
+      </p>
 
-      <div style="margin-top: 20px;">
-        <label for="spaceIdInput" style="display: block; margin-bottom: 8px; font-weight: 500;">Space ID:</label>
-        <input id="spaceIdInput" type="text" value="HyHyvePub" placeholder="Enter space ID" style="
-            width: 200px;
-            padding: 8px 12px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 6px;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-            font-size: 14px;
-            margin-bottom: 16px;
-          " />
+      <div class="mt-5">
+        <label for="spaceIdInput" class="block mb-2 font-medium">Space ID:</label>
+        <input id="spaceIdInput" 
+               type="text" 
+               value="HyHyvePub" 
+               placeholder="Enter space ID" 
+               class="w-[200px] px-3 py-2 border border-white/30 rounded-md bg-white/10 text-white text-sm mb-4 placeholder:text-white/60 focus:outline-none focus:border-white/60 focus:bg-white/15" />
       </div>
 
-      <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
-        <button id="attachBtn" style="
-          display: inline-flex;
-          align-items: center;
-          padding: 10px 20px;
-          border: none;
-          font-size: 14px;
-          font-weight: 500;
-          border-radius: 8px;
-          background-color: #4ade80;
-          color: #FFF;
-          font-weight: bold;
-          cursor: pointer;
-        ">Attach</button>
+      <div class="mt-5 flex gap-3 flex-wrap">
+        <button id="attachBtn" 
+                class="inline-flex items-center px-5 py-2.5 border-0 text-sm font-bold rounded-lg bg-green-400 text-white cursor-pointer hover:bg-green-500 transition-colors">
+          Attach
+        </button>
 
-        <button id="randomizeBtn" style="
-          display: inline-flex;
-          align-items: center;
-          padding: 10px 20px;
-          border: none;
-          font-size: 14px;
-          font-weight: 500;
-          border-radius: 8px;
-          background-color: #8b5cf6;
-          color: #FFF;
-          font-weight: bold;
-          cursor: pointer;
-        ">🎲 New Identity</button>
+        <button id="randomizeBtn" 
+                class="inline-flex items-center px-5 py-2.5 border-0 text-sm font-bold rounded-lg bg-purple-500 text-white cursor-pointer hover:bg-purple-600 transition-colors">
+          🎲 New Identity
+        </button>
 
-        <button id="destroyBtn" style="
-          display: inline-flex;
-          align-items: center;
-          padding: 10px 20px;
-          border: none;
-          font-size: 14px;
-          font-weight: 500;
-          border-radius: 8px;
-          background-color: #f87171;
-          color: #FFF;
-          font-weight: bold;
-          cursor: pointer;
-          ">Destroy</button>
+        <button id="destroyBtn" 
+                class="inline-flex items-center px-5 py-2.5 border-0 text-sm font-bold rounded-lg bg-red-400 text-white cursor-pointer hover:bg-red-500 transition-colors">
+          Destroy
+        </button>
       </div>
     </div>
 
-    <div id="hyhyve"
-      style="flex: auto; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);"></div>
+    <div id="hyhyve" class="flex-auto rounded-[20px] overflow-hidden shadow-lg"></div>
   </div>
 </body>
 

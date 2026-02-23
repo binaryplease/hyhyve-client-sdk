@@ -7,6 +7,7 @@
     content="width=device-width,height=device-height,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1">
   <meta name="robots" content="noindex, nofollow">
   <title>HyHyve SDK - JWT Authentication Example</title>
+  <link rel="stylesheet" href="./style.css">
   <script type="module" src="./jwt-auth-example.ts"></script>
   
   <!-- Prism.js for code syntax highlighting -->
@@ -14,110 +15,6 @@
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-      height: 100vh;
-      width: 100vw;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      font-size: 14px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-    }
-
-    .container {
-      flex: 1;
-      padding: 20px;
-      display: flex;
-      flex-direction: row;
-      gap: 20px;
-      min-height: 0;
-      background-image: url('./noisy-texture-100x100-o4-d10-c-f34379-t1.png');
-      background-repeat: repeat;
-      background-size: 100px 100px;
-      background-blend-mode: multiply;
-    }
-
-    .sidebar {
-      padding: 8px;
-      flex-shrink: 0;
-      width: 320px;
-      overflow-y: auto;
-    }
-
-    .sidebar h1 {
-      margin: 0 0 8px 0;
-      font-size: 28px;
-    }
-
-    .sidebar h2 {
-      margin: 0 0 16px 0;
-      font-size: 18px;
-      font-weight: 500;
-      opacity: 0.9;
-    }
-
-    .info-box {
-      background-color: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
-      padding: 16px;
-      margin: 16px 0;
-      line-height: 1.6;
-    }
-
-    .info-box h3 {
-      margin: 0 0 8px 0;
-      font-size: 14px;
-      font-weight: 600;
-      opacity: 0.9;
-    }
-
-    .info-box p {
-      margin: 0;
-      font-size: 13px;
-      opacity: 0.85;
-    }
-
-    .info-box ul {
-      margin: 8px 0 0 0;
-      padding-left: 20px;
-      font-size: 13px;
-      opacity: 0.85;
-    }
-
-    .info-box li {
-      margin: 4px 0;
-    }
-
-    .status {
-      background-color: rgba(0, 0, 0, 0.2);
-      border-radius: 6px;
-      padding: 12px;
-      margin: 16px 0;
-      font-family: 'Monaco', 'Courier New', monospace;
-      font-size: 12px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 20px;
-      border: none;
-      font-size: 14px;
-      font-weight: 500;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin: 4px;
-    }
-
     .btn:hover {
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -127,100 +24,29 @@
       transform: translateY(0);
     }
 
-    .btn-primary {
-      background-color: #4ade80;
-      color: #065f46;
-      font-weight: bold;
-    }
-
-    .btn-secondary {
-      background-color: #8b5cf6;
-      color: white;
-      font-weight: bold;
-    }
-
-    .btn-danger {
-      background-color: #ef4444;
-      color: white;
-      font-weight: bold;
-    }
-
-    .btn-info {
-      background-color: #06b6d4;
-      color: white;
-      font-weight: bold;
-    }
-
     .btn-info.active {
       background-color: #0e7490;
       box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
       transform: scale(0.98);
     }
 
-    .btn-info:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .content {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-    }
-
-    #hyhyve {
-      flex: 1;
-      min-height: 0;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    }
-
     .modal {
       display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.8);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
     }
 
     .modal-content {
       background-color: #1e293b;
-      border-radius: 12px;
-      padding: 24px;
-      max-width: 800px;
       max-height: 80vh;
       overflow-y: auto;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-    }
-
-    .modal-content h3 {
-      margin: 0 0 16px 0;
-      color: white;
     }
 
     /* Catppuccin Mocha theme for code blocks */
     .code-block {
       background-color: #1e1e2e;
       border: 1px solid #313244;
-      border-radius: 8px;
-      overflow: hidden;
     }
 
     .code-block pre {
-      margin: 0;
-      padding: 16px;
-      overflow-x: auto;
-      font-family: 'Monaco', 'Courier New', monospace;
-      font-size: 13px;
-      line-height: 1.6;
       background-color: #1e1e2e;
     }
 
@@ -295,130 +121,103 @@
     .token.italic {
       font-style: italic;
     }
-
-    .modal-buttons {
-      display: flex;
-      gap: 12px;
-      margin-top: 16px;
-      justify-content: flex-end;
-    }
-
-    a {
-      color: white;
-      text-decoration: none;
-      opacity: 0.9;
-    }
-
-    a:hover {
-      opacity: 1;
-      text-decoration: underline;
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-      }
-
-      .sidebar {
-        width: 100%;
-      }
-    }
   </style>
 </head>
 
-<body>
-  <div class="container">
-    <div class="sidebar">
-      <h1>🔐 JWT Auth</h1>
-      <h2>HyHyve SDK Example</h2>
+<body class="h-screen w-screen m-0 p-0 flex text-sm bg-linear-to-br from-indigo-500 to-purple-600 text-white font-sans">
+  <div class="flex-1 p-5 flex flex-col md:flex-row gap-5 min-h-0"
+       style="background-image: url('./noisy-texture-100x100-o4-d10-c-f34379-t1.png'); background-repeat: repeat; background-size: 100px 100px; background-blend-mode: multiply;">
+    <div class="p-2 shrink-0 w-full md:w-80 overflow-y-auto">
+      <h1 class="m-0 mb-2 text-[28px] font-bold">🔐 JWT Auth</h1>
+      <h2 class="m-0 mb-4 text-lg font-medium opacity-90">HyHyve SDK Example</h2>
 
-      <p style="font-size: 13px; opacity: 0.85; line-height: 1.6;">
+      <p class="text-[13px] opacity-85 leading-relaxed">
         This example demonstrates secure JWT-based authentication with the HyHyve SDK.
       </p>
 
-      <div class="info-box">
-        <h3>🔑 How JWT Auth Works</h3>
-        <ul>
-          <li>Your backend signs a JWT with your API key</li>
-          <li>Frontend receives the token securely</li>
-          <li>Token is passed to HyHyve for authentication</li>
-          <li>User is authenticated automatically</li>
+      <div class="bg-white/10 border border-white/20 rounded-lg p-4 my-4 leading-relaxed">
+        <h3 class="m-0 mb-2 text-sm font-semibold opacity-90">🔑 How JWT Auth Works</h3>
+        <ul class="mt-2 mb-0 pl-5 text-[13px] opacity-85 list-disc">
+          <li class="my-1">Your backend signs a JWT with your API key</li>
+          <li class="my-1">Frontend receives the token securely</li>
+          <li class="my-1">Token is passed to HyHyve for authentication</li>
+          <li class="my-1">User is authenticated automatically</li>
         </ul>
       </div>
 
-      <div class="info-box" style="background-color: rgba(59, 130, 246, 0.2); border-color: rgba(59, 130, 246, 0.4);">
-        <h3>🚀 Quick Start</h3>
-        <p style="margin-bottom: 8px;">Start the backend server first:</p>
-        <div style="background: rgba(0,0,0,0.3); padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px; margin-bottom: 8px;">
+      <div class="bg-blue-500/20 border border-blue-500/40 rounded-lg p-4 my-4 leading-relaxed">
+        <h3 class="m-0 mb-2 text-sm font-semibold opacity-90">🚀 Quick Start</h3>
+        <p class="m-0 mb-2 text-[13px] opacity-85">Start the backend server first:</p>
+        <div class="bg-black/30 p-2 rounded font-mono text-xs mb-2">
           cd examples && node server.js
         </div>
-        <p style="font-size: 12px; opacity: 0.8;">Make sure you have a .env file with HYHYVE_API_KEY and HYHYVE_CLIENT_ID</p>
+        <p class="m-0 text-xs opacity-80">Make sure you have a .env file with HYHYVE_API_KEY and HYHYVE_CLIENT_ID</p>
       </div>
 
-      <div class="status" id="status">
+      <div class="bg-black/20 rounded-md p-3 my-4 font-mono text-xs" id="status">
         ⚪ Initializing...
       </div>
 
-      <div style="margin-top: 20px;">
-        <button id="reconnectBtn" class="btn btn-primary">
+      <div class="mt-5">
+        <button id="reconnectBtn" class="btn inline-flex items-center justify-center px-5 py-2.5 border-0 text-sm font-bold rounded-lg cursor-pointer transition-all m-1 bg-green-400 text-green-900">
           🔄 Reconnect
         </button>
-        <button id="destroyBtn" class="btn btn-danger">
+        <button id="destroyBtn" class="btn inline-flex items-center justify-center px-5 py-2.5 border-0 text-sm font-bold rounded-lg cursor-pointer transition-all m-1 bg-red-500 text-white">
           🗑️ Destroy
         </button>
-        <button id="showBackendBtn" class="btn btn-info" style="width: 100%; margin-top: 8px;">
+        <button id="showBackendBtn" class="btn inline-flex items-center justify-center px-5 py-2.5 border-0 text-sm font-bold rounded-lg cursor-pointer transition-all m-1 bg-cyan-500 text-white w-full mt-2">
           📄 View Backend Code
         </button>
       </div>
 
-      <div class="info-box" style="margin-top: 16px;">
-        <h3>👥 Test Users</h3>
-        <p style="margin-bottom: 8px;">Currently logged in as:</p>
-        <p style="font-size: 14px; font-weight: bold; margin-bottom: 12px;" id="currentUser">user1 (Alice Johnson)</p>
-        <div style="display: flex; flex-direction: column; gap: 8px;">
-          <button class="btn btn-info" data-user-id="user1" style="width: 100%; justify-content: flex-start; padding: 12px 16px;">
-            🚀 <span style="margin-left: 8px;">Alice Johnson</span>
+      <div class="bg-white/10 border border-white/20 rounded-lg p-4 my-4 leading-relaxed">
+        <h3 class="m-0 mb-2 text-sm font-semibold opacity-90">👥 Test Users</h3>
+        <p class="m-0 mb-2 text-[13px] opacity-85">Currently logged in as:</p>
+        <p class="m-0 text-sm font-bold mb-3" id="currentUser">user1 (Alice Johnson)</p>
+        <div class="flex flex-col gap-2">
+          <button class="btn inline-flex items-center justify-start px-4 py-3 border-0 text-sm font-bold rounded-lg cursor-pointer transition-all m-1 bg-cyan-500 text-white w-full" data-user-id="user1">
+            🚀 <span class="ml-2">Alice Johnson</span>
           </button>
-          <button class="btn btn-info" data-user-id="user2" style="width: 100%; justify-content: flex-start; padding: 12px 16px;">
-            💻 <span style="margin-left: 8px;">Bob Smith</span>
+          <button class="btn inline-flex items-center justify-start px-4 py-3 border-0 text-sm font-bold rounded-lg cursor-pointer transition-all m-1 bg-cyan-500 text-white w-full" data-user-id="user2">
+            💻 <span class="ml-2">Bob Smith</span>
           </button>
-          <button class="btn btn-info" data-user-id="user3" style="width: 100%; justify-content: flex-start; padding: 12px 16px;">
-            🎨 <span style="margin-left: 8px;">Carol Williams</span>
+          <button class="btn inline-flex items-center justify-start px-4 py-3 border-0 text-sm font-bold rounded-lg cursor-pointer transition-all m-1 bg-cyan-500 text-white w-full" data-user-id="user3">
+            🎨 <span class="ml-2">Carol Williams</span>
           </button>
         </div>
       </div>
 
-      <div class="info-box" style="margin-top: 16px;">
-        <h3>⚠️ Important</h3>
-        <p>
+      <div class="bg-white/10 border border-white/20 rounded-lg p-4 my-4 leading-relaxed">
+        <h3 class="m-0 mb-2 text-sm font-semibold opacity-90">⚠️ Important</h3>
+        <p class="m-0 text-[13px] opacity-85">
           This example uses a local backend server. In production:
         </p>
-        <ul>
-          <li>Create and sign JWTs with your API key</li>
-          <li>NEVER expose your API key to clients</li>
-          <li>Implement proper user authentication</li>
-          <li>Use short token expiry times (5-15 min)</li>
+        <ul class="mt-2 mb-0 pl-5 text-[13px] opacity-85 list-disc">
+          <li class="my-1">Create and sign JWTs with your API key</li>
+          <li class="my-1">NEVER expose your API key to clients</li>
+          <li class="my-1">Implement proper user authentication</li>
+          <li class="my-1">Use short token expiry times (5-15 min)</li>
         </ul>
       </div>
 
-      <p style="font-size: 12px; opacity: 0.7; margin-top: 24px;">
-        <a href="https://www.npmjs.com/package/@hyhyve/client-sdk" target="_blank">
+      <p class="text-xs opacity-70 mt-6">
+        <a href="https://www.npmjs.com/package/@hyhyve/client-sdk" target="_blank" class="text-white no-underline opacity-90 hover:opacity-100 hover:underline">
           📚 View Full Documentation ↗
         </a>
       </p>
     </div>
 
-    <div class="content">
-      <div id="hyhyve"></div>
+    <div class="flex-1 min-w-0 flex flex-col">
+      <div id="hyhyve" class="flex-1 min-h-0 rounded-xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.3)]"></div>
     </div>
   </div>
 
   <!-- Backend Code Modal -->
-  <div id="backendModal" class="modal">
-    <div class="modal-content">
-      <h3>Backend Implementation Example (Bun Server)</h3>
-      <div class="code-block">
-        <pre><code id="backendCode" class="language-javascript">import jwt from 'jsonwebtoken';
+  <div id="backendModal" class="modal fixed top-0 left-0 right-0 bottom-0 bg-black/80 z-1000 items-center justify-center p-5">
+    <div class="modal-content rounded-xl p-6 max-w-[800px] shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+      <h3 class="m-0 mb-4 text-white">Backend Implementation Example (Bun Server)</h3>
+      <div class="code-block rounded-lg overflow-hidden">
+        <pre class="m-0 p-4 overflow-x-auto font-mono text-[13px] leading-relaxed"><code id="backendCode" class="language-javascript">import jwt from 'jsonwebtoken';
 
 // Bun automatically loads .env files, no need for dotenv package
 const PORT = process.env.PORT || 3000;
@@ -548,11 +347,11 @@ const server = Bun.serve({
 
 console.log(`🚀 Server running on: http://localhost:${server.port}`);</code></pre>
       </div>
-      <div class="modal-buttons">
-        <button id="copyCodeBtn" class="btn btn-primary">
+      <div class="flex gap-3 mt-4 justify-end">
+        <button id="copyCodeBtn" class="btn inline-flex items-center justify-center px-5 py-2.5 border-0 text-sm font-bold rounded-lg cursor-pointer transition-all m-1 bg-green-400 text-green-900">
           📋 Copy Code
         </button>
-        <button id="closeModalBtn" class="btn btn-secondary">
+        <button id="closeModalBtn" class="btn inline-flex items-center justify-center px-5 py-2.5 border-0 text-sm font-bold rounded-lg cursor-pointer transition-all m-1 bg-purple-500 text-white">
           Close
         </button>
       </div>
