@@ -100,7 +100,7 @@ class HyHyveComponent extends HTMLElement {
     const baseUrl = this.pendingOptions?.baseUrl || "https://app.hyhyve.com"
     this.iframe = document.createElement('iframe');
     this.iframe.src = `${baseUrl}/?sdk`;
-    this.iframe.allow = 'autoplay; encrypted-media; picture-in-picture; camera; microphone; display-capture; fullscreen';
+    this.iframe.allow = 'autoplay; encrypted-media; picture-in-picture; camera; microphone; display-capture; fullscreen; clipboard-write';
 
     // Clear shadow root and append style and iframe
     this.shadowRoot!.innerHTML = '';
