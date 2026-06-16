@@ -1,6 +1,6 @@
 {
   "name": "@hyhyve/client-sdk",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "HyHyve Web Component SDK for embedding HyHyve spaces in web applications",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
